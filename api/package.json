@@ -1,0 +1,44 @@
+{
+  "name": "okapi",
+  "version": "1.0.0",
+  "description": "social app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdalla-rko/okapi.git"
+  },
+  "keywords": [
+    "social"
+  ],
+  "author": "abdalla-rko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abdalla-rko/okapi/issues"
+  },
+  "homepage": "https://github.com/abdalla-rko/okapi#readme",
+  "dependencies": {
+    "apollo-server": "^2.13.1",
+    "apollo-server-express": "^2.13.1",
+    "cloudinary": "^1.21.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "graphql": "^15.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.13",
+    "nodemailer": "^6.4.6",
+    "subscriptions-transport-ws": "^0.9.16",
+    "uuid": "^8.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "nodemon": "^2.0.3",
+    "wepack": "0.0.1"
+  }
+}
