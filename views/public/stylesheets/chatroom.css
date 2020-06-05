@@ -1,0 +1,39 @@
+.chatroom {
+  display: flex;
+  justify-content: center;
+}
+
+#message-container {
+  width: 80%;
+  max-width: 1200px;
+}
+
+#message-container div {
+  background-color: var(--extra-color);
+  padding: 5px;
+}
+
+#message-container div:nth-child(2n) {
+  background-color: var(--bg-secondary);
+}
+
+#send-container {
+  position: fixed;
+  margin-bottom: 30px;
+  bottom: 0;
+  background-color: transparent;
+  max-width: 1200px;
+  width: 80%;
+  display: flex;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid var(--extra-color);
+  color: var(--text-primary);
+  font-size: 1.2rem;
+}
+
+#message-input {
+  flex-grow: 1;
+}

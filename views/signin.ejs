@@ -1,0 +1,44 @@
+<%- include('head') -%>
+<link rel="stylesheet" href="./stylesheets/auth.css">
+<script src="./scripts/facebookButton.js"></script>
+<body>
+  <div id="fb-root"></div>
+  <div class="form-style">
+    <h1>Sign in</h1>
+    <% if (messages.auth) { %> <%= messages.auth %> <% } %>
+    <form action="/auth" method="POST">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="example@example.com" required />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="passward ..." required />
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <div>
+      <div class="or-line">
+        <span>or</span>
+      </div>
+      <div class="signin-with-buttons" id="my-signin2"></div>
+      <script src="./scripts/googleButton.js"></script>
+      <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+      <!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button> -->
+      
+      <div id="spinner" class="signin-with-buttons"
+      style="
+        background: #4267b2;
+        border-radius: 5px;
+        color: white;
+        height: 40px;
+        text-align: center;
+        width: 240px;">
+    Loading
+    <div class="fb-login-button" data-onlogin="checkLoginState();" data-scope="public_profile" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="240"></div>
+</div>
+    </div>
+    <span>Don't have an account? <a href="/auth/signup">Sign Up</a></span>
+  </div>
+</body>

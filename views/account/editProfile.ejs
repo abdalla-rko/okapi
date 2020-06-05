@@ -1,0 +1,14 @@
+<%- include('../head') -%>
+<%- include('../nav') -%>
+<div class="main">
+  <h1>welcome to edit your profile <%= name %></h1>
+  <h3>file Upload</h3>
+  <%= typeof msg != 'undefined' ? msg : '' %>
+  <form action="/account/edit/upload" method="POST" enctype="multipart/form-data">
+    <input name="profilepic" type="file" id="profilepic">
+    <input type="text">
+    <button type="submit">Submit</button>
+  </form>
+  <br>
+  <img src="<%= typeof file != 'undefined' ? file : '' %>" />
+</div>
