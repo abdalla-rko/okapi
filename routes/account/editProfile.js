@@ -37,7 +37,7 @@ const router = express.Router();
 
 
 // ! delete uri
-const mongoURI = 'mongodb+srv://appie:Aborko16sd@oncood-js1zu.mongodb.net/oncood?retryWrites=true&w=majority';
+const mongoURI = 'mongodb+srv://appie:Aborko16sd@oncood-js1zu.mongodb.net/okapi?retryWrites=true&w=majority';
 const connectDatabase = async (req, res) => {
   try {
     const client = await new mongodb.MongoClient(mongoURI, {
