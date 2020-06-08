@@ -13,23 +13,36 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  firstname: String,
-  lastname: String,
+  fullName: String,
   date: {
     type: Date,
     default: Date.now
   },
   refresh_token: String,
-  bio: String,
   followers: Array,
-  posts: Array,
   profile_pic: String,
   chat_rooms: Array,
   lastLogin: String,
-  Notifications: Array,
-  developer: Boolean
+  message: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Message'
+    }
+  ],
+  friends: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Friend'
+    }
+  ],
+  Notifications: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Follow'
+    }
+  ],
 },{
   timestamps: true
 });
 
-module.exports = mongoose.model("Users", UserSchema);
+module.exports = mongoose.model("User", UserSchema);
