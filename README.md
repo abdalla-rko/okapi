@@ -154,4 +154,4 @@ Project Link: [https://github.com/your_username/repo_name](https://github.com/yo
 [issues-url]: https://github.com/abdalla-rko/okapi/issues
 
 [license-shield]: https://img.shields.io/github/license/abdalla-kro/okapi.svg?style=flat-square
-[license-url]: https://github.com/abdalla-rko/okapi/blob/master/LICENSE.txt
+[license-url]: https://github.com/abdalla-rko/okapi/blob/master/LICENSE
