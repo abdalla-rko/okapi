@@ -1,19 +1,23 @@
 const mongoose = require("mongoose");
 
-const UserSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const UserSchema = Schema({
   username: {
     type: String,
-    required: true
+    required: true,
+    lowercase: true
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    lowercase: true, 
+    trim: true,
+    unique: true
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
-  fullName: String,
   date: {
     type: Date,
     default: Date.now
@@ -23,6 +27,10 @@ const UserSchema = mongoose.Schema({
   profile_pic: String,
   chat_rooms: Array,
   lastLogin: String,
+  isOnline: {
+    type: Boolean,
+    default: false
+  },
   message: [
     {
       type: Schema.Types.ObjectId,

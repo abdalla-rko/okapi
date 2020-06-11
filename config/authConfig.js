@@ -25,10 +25,6 @@ async function registerUser(username, email, password, res) {
     // todo: better error handeling
   const emailExist = await User.findOne({email: email});
   if (emailExist) return 'Email already exists';
-  const usernameExist = await User.findOne({username: username})
-  if (usernameExist) return 'Userename alreasy exists';
-  
-  
   
   const saltRounds = 10;
   

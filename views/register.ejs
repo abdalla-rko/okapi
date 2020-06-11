@@ -1,12 +1,13 @@
 <%- include('head') -%>
 <link rel="stylesheet" href="./stylesheets/auth.css">
+<script src="./scripts/facebookButton.js"></script>
 <body>
 <div class="form-style">
   <h1>Register</h1>
   <% if (messages.auth) { %> <%= messages.auth %> <% } %>
   <form action="/auth/signup" method="POST">
     <div>
-      <label for="name">Name</label>
+      <label for="username">Username</label>
       <input type="text" id="username" name="username" required />
     </div>
     <div>
@@ -26,6 +27,9 @@
     <div class="signin-with-buttons" id="my-signin2"></div>
     <script src="./scripts/googleButton.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <div id="spinner" class="signin-with-buttons facebookButton">
+    Loading
+    <div class="fb-login-button" data-onlogin="checkLoginState();" data-scope="public_profile" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="240"></div>
   </div>
   <span>Have an account? <a href="/auth">Sign in</a></span>
 </div>

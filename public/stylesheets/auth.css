@@ -103,3 +103,13 @@
 .signin-with-buttons {
   margin: 15px 100px;
 }
+
+.facebookButton {
+  background: #4267b2;
+  border-radius: 5px;
+  color: white;
+  height: 40px;
+  padding-top: 7px;
+  text-align: center;
+  width: 240px;
+}

@@ -14,13 +14,13 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const indexRoute = require('./routes/index/index');
-const postsRoute = require('./routes/posts');
 const authRoute = require('./routes/auth');
-const feedRoute = require('./routes/feed');
+const friendRoute = require('./routes/friend');
 const profileRoute = require('./routes/account/profile');
 const editProfileRoute = require('./routes/account/editProfile');
 const aboutRotue = require('./routes/about');
 const chatRoute = require('./routes/chat');
+const notificationRoute = require('./routes/notification')
 const errorsRoute = require('./routes/errors');
 
 const app = express();
@@ -56,13 +56,13 @@ app.use(
   })
 
 app.use('/', indexRoute);
-app.use('/posts', postsRoute);
 app.use('/auth', authRoute);
-app.use('/feedRoute', feedRoute);
+app.use('/friend', friendRoute);
 app.use('/account', profileRoute);
 app.use('/account/edit', editProfileRoute);
 app.use('/about', aboutRotue);
 app.use('/chat', chatRoute);
+app.use('/notification', notificationRoute);
 app.use('*', errorsRoute);
 
 io.on('connection', socket => {
@@ -105,6 +105,7 @@ io.on('connection', socket => {
 mongoose.connect(
   process.env.DB_CONNECTION, {
     useNewUrlParser: true,
+    useCreateIndex: true,
     useUnifiedTopology: true
   },
   () => console.log('connected to DB')

@@ -4,7 +4,6 @@ const { loginUser, registerUser } = require('../config/authConfig');
 const {OAuth2Client} = require('google-auth-library');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
-const fetch = require('node-fetch');
 
 router.get('/', checkAuthenticateToken, (req, res) => {
   res.render('signin.ejs', {
@@ -68,8 +67,6 @@ router.post('/google', (req, res) => {
       // todo: better error handeling
     const emailExist = await User.findOne({email: emailSave});
     if (emailExist) return await createJsonWebToken(emailSave, res)
-    const usernameExist = await User.findOne({username: usernameSave})
-    if (usernameExist) return await createJsonWebToken(emailSave, res)
 
     const saltRounds = 10;
 
@@ -98,6 +95,7 @@ router.post('/facebook', async (req, res) => {
 
   const usernameSave = name.toLowerCase();
   const emailSave = email.toLowerCase();
+
 
   // todo: better error handeling
   const emailExist = await User.findOne({email: emailSave});

@@ -1,19 +1,14 @@
 const finished_rendering = function() {
   console.log("finished rendering plugins");
   var spinner = document.getElementById("spinner");
-  spinner.removeAttribute("style");
-  console.log('child nod', spinner.childNodes[0])
-  spinner.removeChild(spinner.childNodes[0]);
+  spinner.classList.remove("facebookButton");
+  spinner.removeChild(spinner.childNodes[0]); // to remove spinner child "loading"
 }
 
 function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
-  console.log('statusChangeCallback');
-  console.log(response);                   // The current login status of the person.
   if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-    console.log('signed', response.authResponse)
     facebookAPI(response);  
   } else {                                 // Not logged into your webpage or we are unable to tell.
-    console.log("please login")
   }
 }
 
@@ -47,7 +42,6 @@ window.fbAsyncInit = function() {
   }(document, 'script', 'facebook-jssdk'));
 
 function facebookAPI(response) {
-  console.log('Welcome!  Fetching your information.... ');
   FB.api('/me?fields=name, id, email', function(response) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://localhost:5000/auth/facebook', true);
