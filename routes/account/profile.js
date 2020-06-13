@@ -5,15 +5,7 @@ const fs = require('fs');
 const router = express.Router();
 
 router.get('/', authenticateToken, async (req, res) => {
-  const profilePic = await checkUserProfilePic(req, res)
-  req.flash('profilepic', profilePic)
-  console.log("****** file name", profilePic);
-  
-  // res.render('account/profile.ejs', {
-  //   name: req.user.username,
-  //   title: 'profile'
-  // })
-  console.log("****** file name2", profilePic);
+  await checkUserProfilePic(req, res)
 });
 
 router.post('/logout', (req, res) => {

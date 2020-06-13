@@ -13,37 +13,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const router = express.Router();
 
-// <% if ( %> <%= messages.profilepic %> <% ) { %>
-//   <img src="uploads/profile/" + <%= messages.profilepic %> + "" alt="profile-pic">
-//   <% } else { %>
-//     <img src="uploads/profile/default-user.png" alt="profile-pic">
-//   <% } %>
-
-
-// * set storage Engine multer
-// * multer is used to sasve files in file disk
-// const storage = multer.diskStorage({
-//   destination: './public/uploads/',
-//   filename: function(req, file, cb){
-  //     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
-  //   }
-  // // })
-  // const storage = multer.memoryStorage();
-// console.log("storage ********     ", storage);
-
-
-// // init Upload
-// var upload = multer({ storage: storage }).single('profilepic')
-// const upload = multer({
-  //// storage: storage,
-  //   limits: {
-    //     fileSize: 5000000
-    //   },
-    //   fileFilter: function(req, file, cb){
-//     checkFileType(file, cb);
-//   }
-// }).single('profilepic');
-
 const connectDatabase = async (req, res) => {
   try {
     const client = await new mongodb.MongoClient(process.env.DB_CONNECTION, {
@@ -66,9 +35,14 @@ const connectDatabase = async (req, res) => {
   }
 }
 
-const uploadProfilePic = (req, bucket, db) => {
+const uploadProfilePic = async (req, bucket, db) => {
   if (req.files.profilepic) {
     if (req.files.profilepic.type === 'image/jpeg' || req.files.profilepic.type === 'image/png' || req.files.profilepic.type === 'image/jpg') {
+      const deleteOldPic = await db.collection('profile_pics.files').findOne({ filename: { $regex: "(" + req.user._id + ")\..*" } });
+        if (deleteOldPic) {
+          await db.collection('profile_pics.files').removeOne({ filename: { $regex: "(" + req.user._id + ")\..*" } });
+          await db.collection('profile_pics.chunks').removeOne({ _id: deleteOldPic._id })
+        }
       console.log('path: ' + req.files.profilepic.name)
       console.log('ext: ' + req.files.profilepic.type)
       fs.createReadStream(req.files.profilepic.path).
