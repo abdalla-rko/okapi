@@ -13,6 +13,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 const router = express.Router();
 
+// <% if ( %> <%= messages.profilepic %> <% ) { %>
+//   <img src="uploads/profile/" + <%= messages.profilepic %> + "" alt="profile-pic">
+//   <% } else { %>
+//     <img src="uploads/profile/default-user.png" alt="profile-pic">
+//   <% } %>
+
 
 // * set storage Engine multer
 // * multer is used to sasve files in file disk
@@ -53,82 +59,72 @@ const connectDatabase = async (req, res) => {
       bucketName: 'profile_pics'
     });
 
-    // req.files.profilepic.name ? await uploadProfilePic(req, res, bucket) : null;
     // todo search if file name exist in database else do nothing
-    // await await uploadProfilePic(req, res, bucket)
-
-    const checkPictureExist = await db.collection('profile_pics.files').findOne({ filename: "download.jpeg" });
-    if (checkPictureExist) {
-      await downloadProfilePic(req, res, bucket)
-    }
+    uploadProfilePic(req, bucket, db)
   } catch (error) {
     console.error(error);
   }
 }
 
-const uploadProfilePic = (req, res, bucket) => {
+const uploadProfilePic = (req, bucket, db) => {
   if (req.files.profilepic) {
     if (req.files.profilepic.type === 'image/jpeg' || req.files.profilepic.type === 'image/png' || req.files.profilepic.type === 'image/jpg') {
       console.log('path: ' + req.files.profilepic.name)
       console.log('ext: ' + req.files.profilepic.type)
       fs.createReadStream(req.files.profilepic.path).
-      pipe(bucket.openUploadStream("profile" + path.extname(req.files.profilepic.name))).
+      pipe(bucket.openUploadStream(req.user._id + path.extname(req.files.profilepic.name))).
       on('error', function(error) {
         assert.ifError(error);
       }).
-      on('finish', function() {
+      on('finish', async () => {
         console.log('done!');
-        return;
+        const checkPictureExist = await db.collection('profile_pics.files').findOne({ filename: { $regex: "(" + req.user._id + ")\..*" } });
+        if (checkPictureExist) {
+          const filenamePic = checkPictureExist.filename;
+          await downloadProfilePic(req, bucket, filenamePic)
+        }
         // process.exit(0);
-        });
+      });
+      return;
     }
+    return;
   }
-  console.log("not image or image is bigger than 10mb");
+  console.log("not an image or it's bigger than 10mb");
   
   return req.flash('profile', 'Not an image') // todo in fron-end
 }
 
-const downloadProfilePic = (req, res, bucket) => {
-  // find user profile
-  // bucket.findOne({})
-  // Use bucket...
-
-
-  const pathToOldProfilePic = 'public/uploads/profile/profile.jpeg';
-  fs.unlink(pathToOldProfilePic, function(err) {
-    if (err) {
-      // console.error(err)
-    } else {
-      console.log("successfully deleted the file.");
-      
-    }
+const downloadProfilePic = async (req, bucket, filenamePic) => {
+  let filenamePath = '';
+  const regExp = /profile\..*/
+  const directoryPath = path.join(__dirname, '../../public/uploads/profile');
+  fs.readdir(directoryPath, (err, files) => {
+    if (err) return console.log('Unable to scan directory: ' + err)
+    
+    files.forEach(file => {
+      if (file.match(regExp)) {
+        filenamePath = file
+        console.log(filenamePath);
+        const pathToOldProfilePicPath = 'public/uploads/profile/' + filenamePath + '';
+        fs.unlink(pathToOldProfilePicPath, function(err) {
+          if (err) {
+            // console.error(err)
+          } else {
+            console.log("successfully deleted the file.");
+            
+          }
+        })
+      }
+    })
   })
-
-
-  bucket.openDownloadStreamByName("haha.jpeg").
-  pipe(fs.createWriteStream(`public/uploads/profile/profile.jpeg`)).
+  bucket.openDownloadStreamByName(filenamePic).
+  pipe(fs.createWriteStream(`public/uploads/profile/profile${path.extname(filenamePic)}`)).
   on('error', function(error) {
     assert.ifError(error);
   }).
   on('finish', function() {
     console.log('done!');
   });
-}
-
-// Check file type
-function checkFileType(file, cb) {
-  // Allowd extions
-  const filetypes = /jpeg|jpg|png/;
-  // check extions
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  //  check mime type
-  const mimetype = filetypes.test(file.mimetype);
-
-  if(mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb('Error: Images only!')
-  }
 }
 
 router.get('/', authenticateToken, (req, res) => {
@@ -138,20 +134,7 @@ router.get('/', authenticateToken, (req, res) => {
   })
 });
 
-router.get('/upload', authenticateToken, (req, res) => {
-  res.render('account/editProfile.ejs', {
-    name: req.user.username,
-    title: 'profile'
-  })
-})
-
 router.post('/upload', authenticateToken, formparser, (req, res) => {
-  // res.render('account/editProfile.ejs', {
-  //   msg: 'File Uploaded!',
-  //   file: `uploads/${req.file.filename}`,
-  //   name: req.user.username,
-  //   title: 'account'
-  // }
   connectDatabase(req, res).catch(console.error)
   res.redirect('/');
 })

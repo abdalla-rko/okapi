@@ -6,9 +6,12 @@
 <%- include('../nav') -%>
 <div class="main">
   <div class="avatar">
-
     <div class="profile-pic">
-      <img src="uploads/profile/default-user.png" alt="profile-pic">
+      <% if (profilePic) { %>
+        <img src="uploads/profile/<%= profilePic %>"  alt="avatar">
+        <% } else { %>
+          <img src="uploads/profile/default-user.png" alt="profile-pic">
+        <% } %>
     </div>
 
     <div class="user-settings">
