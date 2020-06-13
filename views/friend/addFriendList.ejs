@@ -1,0 +1,18 @@
+<%- include('../head') -%>
+<%- include('../nav') -%>
+<link rel="stylesheet" href="./stylesheets/indexChat.css">
+<script defer>
+</script>
+  <body>
+    <!-- find out why the div in forEach -->
+    <div class="main">
+      <div id="room-container">
+        <% addFriendList.forEach(addFriend => { %>
+          <div class="room">
+            <div><%= addFriend.username %></div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>

@@ -23,20 +23,12 @@ const UserSchema = Schema({
     default: Date.now
   },
   refresh_token: String,
-  followers: Array,
   profile_pic: String,
   chat_rooms: Array,
-  lastLogin: String,
   isOnline: {
     type: Boolean,
     default: false
   },
-  message: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Message'
-    }
-  ],
   friends: [
     {
       type: Schema.Types.ObjectId,

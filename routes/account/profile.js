@@ -1,5 +1,6 @@
 const express = require('express');
 const authenticateToken = require('../../config/jwtToken').authenticateToken;
+const User = require('../../models/User');
 const path = require('path');
 const fs = require('fs');
 const router = express.Router();
@@ -8,7 +9,10 @@ router.get('/', authenticateToken, async (req, res) => {
   await checkUserProfilePic(req, res)
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', authenticateToken, async (req, res) => {
+  await User.findOneAndUpdate({ _id: req.user._id }, {
+    $set: { isOnline: false }
+  })
   res.cookie('Authorization', {maxAge: Date.now()})
   res.redirect('/auth');
 });

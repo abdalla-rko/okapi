@@ -6,6 +6,9 @@ const cookie = require('cookie');
 async function createJsonWebToken(email, res) {
   const userData = await User.findOne({email: email}, {_id: 1, username: 1})
   const userId = userData._id;
+  await User.updateOne({ _id: userId }, {
+    $set: { isOnline: true }
+  })
   const username = userData.username;
   const token = jwt.sign({_id: userId, username: username}, process.env.TOKEN_SECRET);
   const refreshToken = jwt.sign({_id: userId, username: username}, process.env.REFRESH_TOKEN_SECRET);
@@ -13,7 +16,7 @@ async function createJsonWebToken(email, res) {
       refresh_token: refreshToken
     })
     const setCookie = cookie.serialize('Authorization', 'Bearer ' + token, {
-      maxAge: 60 * 10,
+      maxAge: 60 * 40,
       path: '/'
     })
     res.setHeader('Set-Cookie', setCookie);
@@ -39,7 +42,7 @@ function refreshAndCheckToken(req, res, next, authenticate) {
           const accessToken = jwt.sign({_id: user._id, username: user.username}, process.env.TOKEN_SECRET);
           
           const setCookie = cookie.serialize('Authorization', 'Bearer ' + accessToken, {
-            maxAge: 60 * 10,
+            maxAge: 60 * 40,
             path: '/'
           })
           res.cookie('Authorization', authHeader, {maxAge: Date.now()})
