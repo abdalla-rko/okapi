@@ -37,7 +37,6 @@
 .form-style span a {
   font-weight: bold;
   color: var(--text-secondary);
-  text-decoration: none;
 }
 
 .form-style span a:hover {

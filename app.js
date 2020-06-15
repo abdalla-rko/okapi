@@ -18,9 +18,10 @@ const authRoute = require('./routes/auth');
 const friendRoute = require('./routes/friend');
 const profileRoute = require('./routes/account/profile');
 const editProfileRoute = require('./routes/account/editProfile');
-const aboutRotue = require('./routes/about');
 const chatRoute = require('./routes/chat');
 const notificationRoute = require('./routes/notification')
+const aboutRoute = require('./routes/about');
+const feedbackRoute = require('./routes/feedback');
 const errorsRoute = require('./routes/errors');
 
 const app = express();
@@ -60,9 +61,10 @@ app.use('/auth', authRoute);
 app.use('/friend', friendRoute);
 app.use('/account', profileRoute);
 app.use('/account/edit', editProfileRoute);
-app.use('/about', aboutRotue);
 app.use('/chat', chatRoute);
 app.use('/notification', notificationRoute);
+app.use('/about', aboutRoute);
+app.use('/feedback', feedbackRoute)
 app.use('*', errorsRoute);
 
 io.on('connection', socket => {

@@ -48,10 +48,10 @@
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
   transition: 200ms ease-in-out;
-  border: 1px solid black;
+  border: 1px solid var(--bg-secondary);
   border-radius: 10px;
   z-index: 10;
-  background-color: aliceblue;
+  background-color: var(--extra-color);
   width: 500px;
   max-width: 70%;
 }
@@ -73,22 +73,29 @@
   font-weight: bold;
 }
 
-.user-settings .modal-header .close-button, .user-settings .settings-button, .user-settings .modal-body button {
+.user-settings .modal-header .close-button, .user-settings .settings-button, .user-settings .modal-body .button {
   cursor: pointer;
   border: none;
   outline: none;
   background: none;
 }
 
+.user-settings .modal-header .close-button {
+  font-size: 1.5rem;
+}
+
 .user-settings .modal-body {
   padding: 0px;
 }
 
-.user-settings .modal-body .logout button {
+.user-settings .modal-body .button {
   width: 100%;
-  font-size: 1.1rem;
   height: 1.8rem;
+  display: block;
+  color: var(--text-primary);
+  font-size: 1.1rem;
   text-align: center;
+  margin-top: 5px;
 }
 
 #overlay {

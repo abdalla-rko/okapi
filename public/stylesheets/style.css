@@ -44,6 +44,9 @@ body {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
 
 /* design scrollbar */
 body::-webkit-scrollbar {
