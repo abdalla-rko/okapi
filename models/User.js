@@ -18,10 +18,6 @@ const UserSchema = Schema({
   password: {
     type: String
   },
-  date: {
-    type: Date,
-    default: Date.now
-  },
   refresh_token: String,
   profile_pic: String,
   chat_rooms: Array,
@@ -38,7 +34,7 @@ const UserSchema = Schema({
   Notifications: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Follow'
+      ref: 'Notification'
     }
   ],
 },{

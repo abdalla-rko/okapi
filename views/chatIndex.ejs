@@ -4,20 +4,19 @@
 <script defer src="http://localhost:5000/socket.io/socket.io.js"></script>
 <script defer src="./scripts/chatScript.js"></script>
 <script defer>
-  // todo: add real time usercount
-  document.getElementById('countUsers').addEventListener('click', countUsers);
-  function countUsers() {
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/chat/usercount', true);
+  // // todo: add real time usercount
+  // document.getElementById('countUsers').addEventListener('click', countUsers);
+  // function countUsers() {
+  //   const xhr = new XMLHttpRequest();
+  //   xhr.open('POST', '/chat/usercount', true);
   
-    xhr.onload = function(){
+  //   xhr.onload = function(){
       
-    }
+  //   }
 
-  }
+  // }
 </script>
   <body>
-    <!-- find out why the div in forEach -->
     <div class="main">
       <div id="room-container">
         <% rooms.forEach(room => { %>
