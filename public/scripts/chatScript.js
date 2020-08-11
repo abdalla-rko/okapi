@@ -1,8 +1,23 @@
-const socket = io('http://localhost:5000')
+const socket = io('/')
 const messageContainer = document.getElementById('message-container')
 const roomContainer = document.getElementById('room-container')
 const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
+const videoGrid = document.getElementById('video-grid')
+const myVideo = document.createElement('video')
+myVideo.muted = true
+
+navigator.mediaDevices.getUserMedia({
+  video: true,
+  audio: true
+})
+  .then(steam => {
+    addVideoStream(myVideo, stream)
+    socket.on('user-connected')
+  })
+  .catch(err => {
+    console.log(err);
+  })
 
 // todo use exec for displaying existing massages
 
@@ -18,6 +33,18 @@ if (messageForm != null) {
     messageInput.value = ''
   })
 }
+
+function callButton() {
+  console.log('clicked');
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', `http://localhost:5000/chat/${roomName}/call`, true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+    location.replace(xhr.responseURL);
+  }
+  xhr.send()
+}
+
 
 socket.on('room-created', room => {
   const roomElement = document.createElement('div')
@@ -35,6 +62,14 @@ socket.on('chat-message', (message, name) => {
   appendMessage(`${name}: ${message}`)
 })
 
+
+socket.emit('join-call', roomName, userName)
+
+socket.on('user-joined-call', name => {
+  console.log('User joined call' + name);
+})
+
+
 socket.on('user-connected', name => {
   appendMessage(`${name} connected`)
 })
@@ -47,4 +82,12 @@ function appendMessage(message) {
   const messageElement = document.createElement('div')
   messageElement.innerText = message
   messageContainer.append(messageElement)
+}
+
+function addVideoStream(video, stream) {
+  video.srcObject = stream
+  video.addEventListener('loadedmetadata', () => {
+    Video.play()
+  })
+  videoGrid.append(video)
 }

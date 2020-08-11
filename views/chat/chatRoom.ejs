@@ -1,11 +1,11 @@
-<%- include('head') -%>
+<%- include('../head') -%>
 <link rel="stylesheet" href="./stylesheets/chatroom.css">
-<%- include('nav') -%>
+<%- include('../nav') -%>
 <script>
   const roomName = "<%= roomName %>"
   const userName = "<%= username %>"
 </script>
-<script defer src="http://localhost:5000/socket.io/socket.io.js"></script>
+<script defer src="/socket.io/socket.io.js"></script>
 <script defer src="./scripts/chatScript.js"></script>
 <body>
   <div class="main chatroom">
@@ -14,6 +14,7 @@
       <input type="text" id="message-input">
       <button type="submit" id="send-button">Send</button>
     </form>
+    <button onclick="callButton()" id="call-button">Call</button>
   </div>
 </body>
 </html>

@@ -11,7 +11,7 @@ router.get('/', authenticateToken, async (req, res) => {
     const countUsers = [];
     names.forEach((user) => countUsers.push({countUser: user.users, name: user.name}))
     
-    res.render('chatIndex', { 
+    res.render('chat/chatIndex', { 
       rooms: namesArray,
       users: countUsers,
       name: req.user.username,
@@ -62,7 +62,7 @@ router.get('/:room', authenticateToken, async (req, res) => {
           socketId: ""
         }}})
     }
-    res.render('chatRoom', { 
+    res.render('chat/chatRoom', { 
       roomName: req.params.room, 
       username: userName,
       name: req.user.username,
@@ -72,6 +72,20 @@ router.get('/:room', authenticateToken, async (req, res) => {
     // room doesn't exit
     return res.redirect('/chat')
   }
+})
+
+router.post('/:room/call', (req, res) => {
+  console.log("hahahahahha I'm callign");
+  res.redirect('/:room/call')
+})
+
+router.get('/:room/call', authenticateToken, (req, res) => {
+  console.log("it's working");
+  res.render('chat/chatCall', { 
+    roomName: req.params.room, 
+    name: req.user.username,
+    title: 'chatroom'
+  })
 })
 
 module.exports = router;

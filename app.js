@@ -83,6 +83,11 @@ io.on('connection', socket => {
     })
     socket.to(room).broadcast.emit('chat-message', message, name)
   })
+  socket.on('join-call', (room, name) => {
+    console.log('join call');
+    socket.join(room)
+    socket.to(room).broadcast.emit('user-joined-call', name)
+  })
   socket.on('disconnect', async () => {
     const userData = await Room.findOne({ users: { $elemMatch: { socketId: socket.id}}}, {
       users: {

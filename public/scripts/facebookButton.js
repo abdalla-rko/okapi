@@ -51,5 +51,4 @@ function facebookAPI(response) {
     }
     xhr.send(JSON.stringify(response))
   });
-
 }
