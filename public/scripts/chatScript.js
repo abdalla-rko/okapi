@@ -81,6 +81,11 @@ function appendMessage(message) {
   messageContainer.append(messageElement)
 }
 
+function connectUserToVideoChat(name, stream) {
+  const call = stream
+  const video = document.createElement('video')
+}
+
 function addVideoStream(video, stream) {
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
