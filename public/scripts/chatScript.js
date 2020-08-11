@@ -3,17 +3,20 @@ const messageContainer = document.getElementById('message-container')
 const roomContainer = document.getElementById('room-container')
 const messageForm = document.getElementById('send-container')
 const messageInput = document.getElementById('message-input')
+
+
 const videoGrid = document.getElementById('video-grid')
 const myVideo = document.createElement('video')
 myVideo.muted = true
-
 navigator.mediaDevices.getUserMedia({
   video: true,
   audio: true
 })
-  .then(steam => {
+  .then(stream => {
     addVideoStream(myVideo, stream)
-    socket.on('user-connected')
+    socket.on('user-joined-call', name => {
+      connectUserToVideoChat(name, stream)
+    })
   })
   .catch(err => {
     console.log(err);
@@ -62,13 +65,7 @@ socket.on('chat-message', (message, name) => {
   appendMessage(`${name}: ${message}`)
 })
 
-
 socket.emit('join-call', roomName, userName)
-
-socket.on('user-joined-call', name => {
-  console.log('User joined call' + name);
-})
-
 
 socket.on('user-connected', name => {
   appendMessage(`${name} connected`)
@@ -87,7 +84,7 @@ function appendMessage(message) {
 function addVideoStream(video, stream) {
   video.srcObject = stream
   video.addEventListener('loadedmetadata', () => {
-    Video.play()
+    video.play()
   })
   videoGrid.append(video)
 }
