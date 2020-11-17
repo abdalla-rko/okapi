@@ -57,6 +57,7 @@ router.post('/google', (req, res) => {
         // Or, if multiple clients access the backend:
     });
     const payload = ticket.getPayload();
+    console.log('payload ******', payload)
     const userIdPass = payload['sub'];
     const userName = payload['name'];
     const userEmail = payload['email'];

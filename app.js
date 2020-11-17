@@ -121,5 +121,4 @@ mongoose.connect(
 
 server.listen(process.env.PORT, () => console.log(`Server has started on port ${process.env.PORT}`));
 
-const auto = "auto";
 module.exports =  app;
